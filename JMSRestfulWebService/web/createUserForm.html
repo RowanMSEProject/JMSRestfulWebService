@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Create New User</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script language="JavaScript" src="clientSideInclude.js"></script>
+    </head>
+    <body onLoad="clientSideInclude('includeone', 'https://localhost:8181/JMSRestfulWebService/webresources/entities.userroles/list');">
+        <h2>Create User</h2>
+        <form onsubmit="return message()" method="POST" action="https://localhost:8181/JMSRestfulWebService/webresources/entities.login/create">
+            First Name: <input type="text" name="firstName"> <br>
+            Last Name: <input type="text" name="lastName"> <br>
+            Username: <input type="text" name="username"> <br>
+            Password: <input type="password" name="password"> <br>
+            Role: <span id="includeone"></span><br>
+
+            <input type="submit" value="Create">
+        </form> 
+    </body>
+</html>
