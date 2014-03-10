@@ -17,11 +17,24 @@ import jms.ProduceSender;
  */
 public class Publisher {
     
-    public static void publish (Object entity) throws JMSException, NamingException, IOException {
+    public static void publish (Object entity, 
+            MessageSender.TransactionType transactionType) throws JMSException, NamingException, IOException {
         // Stub
         // This method should delegate to the 
         // JMS publishing mechanism
-        ProduceSender.publish();
+        
+        String channel = entity.getClass().getName();
+        publish(channel, transactionType);
         System.out.println("Publishing: " + entity + " changed ");
+    }
+    
+    private static void publish ( String channel, 
+            MessageSender.TransactionType transactionType) {
+      try {  
+        ProduceSender.publish(channel, transactionType.toString());
+      } catch (Exception e) {
+          e.printStackTrace();
+     }
+        
     }
 }

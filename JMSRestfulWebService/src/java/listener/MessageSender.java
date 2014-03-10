@@ -35,6 +35,10 @@ public class MessageSender {
                 entities.Skills.class,
                 entities.Skillsforusers.class,
                 entities.Userroles.class};
+    
+    
+    enum TransactionType  {Create, Remove, Update};
+    
 
     HashSet<Class> classSet;
 
@@ -57,14 +61,33 @@ public class MessageSender {
     }
 
     @PostPersist
-    @PostRemove
-    @PostUpdate
     /**
+     * Callback for entity changes
+     */
+    public void entityCreated(Object entity) throws JMSException, NamingException, IOException {
+        if (amServicing(entity))
+            Publisher.publish(entity, TransactionType.Create);
+     
+    }
+    
+    @PostUpdate
+       /**
      * Callback for entity changes
      */
     public void entityUpdated(Object entity) throws JMSException, NamingException, IOException {
         if (amServicing(entity))
-            Publisher.publish(entity);
+            Publisher.publish(entity, TransactionType.Update);
      
     }
+    
+    @PostRemove
+       /**
+     * Callback for entity changes
+     */
+    public void entityRemoved(Object entity) throws JMSException, NamingException, IOException {
+        if (amServicing(entity))
+            Publisher.publish(entity, TransactionType.Remove);
+     
+    }
+    
 }

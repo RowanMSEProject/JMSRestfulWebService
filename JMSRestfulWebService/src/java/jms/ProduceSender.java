@@ -26,8 +26,7 @@ import javax.naming.NamingException;
 public class ProduceSender {
 
     public static final String TOPIC = "jms/myTopic1";
-    public static final String MESSAGE = "This is the test";
-    public static final String NAME = "Jun";
+    
             
     /**
      * @param args the command line arguments
@@ -36,7 +35,7 @@ public class ProduceSender {
 
     // Create a JMS topic connection and 
     // connect to GlassFish TOPIC
-    public static void publish() 
+    public static void publish(String channel, String message) 
             throws JMSException, NamingException, IOException 
     {
         // Get the TOPIC from local GlassFishServer
@@ -59,8 +58,8 @@ public class ProduceSender {
         // Publish message to the Topic 
         ObjectMessage objectMessage = publishSession.createObjectMessage();
         objectMessage.setObject(new CommunicationMessage(
-                ProduceSender.NAME, 
-                ProduceSender.MESSAGE));
+                channel, 
+                message));
         topicPublisher.publish(objectMessage);
         
     }
