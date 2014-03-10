@@ -5,8 +5,11 @@
  */
 package listener;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
+import javax.jms.JMSException;
+import javax.naming.NamingException;
 import javax.persistence.PostPersist;
 import javax.persistence.PostRemove;
 import javax.persistence.PostUpdate;
@@ -59,7 +62,7 @@ public class MessageSender {
     /**
      * Callback for entity changes
      */
-    public void entityUpdated(Object entity) {
+    public void entityUpdated(Object entity) throws JMSException, NamingException, IOException {
         if (amServicing(entity))
             Publisher.publish(entity);
      

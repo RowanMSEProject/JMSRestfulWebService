@@ -6,16 +6,22 @@
 
 package listener;
 
+import java.io.IOException;
+import javax.jms.JMSException;
+import javax.naming.NamingException;
+import jms.ProduceSender;
+
 /**
  *
  * @author crouch
  */
 public class Publisher {
     
-    public static void publish (Object entity) {
+    public static void publish (Object entity) throws JMSException, NamingException, IOException {
         // Stub
         // This method should delegate to the 
         // JMS publishing mechanism
+        ProduceSender.publish();
         System.out.println("Publishing: " + entity + " changed ");
     }
 }

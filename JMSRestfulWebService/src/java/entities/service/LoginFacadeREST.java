@@ -106,5 +106,21 @@ public class LoginFacadeREST extends AbstractFacade<Login> {
             newUser.setRoleid(newRole);
             super.create(newUser);
     }
+    
+    @GET
+    @Path("/users")
+    @Consumes({"application/x-www-form-urlencoded", "application/xml", "application/json"})
+    public String getUsers() {
+        final String format = "%s\t\t%s\n";
+
+        String answer = String.format(format, "Username", "Password");
+        answer += "============================\n";
+
+        List<Login> users = em.createNamedQuery("Login.findAll").getResultList();
+        for (Login u : users) {
+            answer += String.format(format, u.getUsername(), u.getPassword());
+        }
+        return answer;
+    }
 
 }
