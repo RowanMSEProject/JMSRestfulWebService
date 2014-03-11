@@ -17,6 +17,7 @@ import jms.ProduceSender;
  */
 public class JMSPublisher implements Publisher {
 
+    @Override
     public void publish(
             Object entity,
             MessageSender.TransactionType transactionType)

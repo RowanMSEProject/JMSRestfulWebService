@@ -52,7 +52,7 @@ public class MessageSender {
     }
 
     private void init() {
-        classSet = new HashSet<Class>();
+        classSet = new HashSet<>();
         Collections.addAll(classSet, publishedClasses);
         publisher = new JMSPublisher(); // TODO: inject instead.
     }
