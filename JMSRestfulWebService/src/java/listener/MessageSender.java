@@ -5,27 +5,26 @@
  */
 package listener;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
-import javax.jms.JMSException;
-import javax.naming.NamingException;
 import javax.persistence.PostPersist;
 import javax.persistence.PostRemove;
 import javax.persistence.PostUpdate;
 
 /**
- * Central publishing station. Changes to all participating
- * entities are published by this class
+ * Central publishing station. Changes to all participating entities are
+ * published by this class
  *
  * @author geebzter
  */
-
 public class MessageSender {
 
     // All entity classes that are participating
     // in the pub/sub. 
-    
+    // NOTE: At present this collection is statically specified.
+    // This can be changed to auto-discovering all classes in a given package 
+    // or a collection of packages using reflection. If in that case, the collection
+    // of package names would be specified. Alternatively, this information can be injected.
     final static Class[] publishedClasses
             = {
                 entities.Certnames.class,
@@ -35,12 +34,17 @@ public class MessageSender {
                 entities.Skills.class,
                 entities.Skillsforusers.class,
                 entities.Userroles.class};
-    
-    
-    enum TransactionType  {Create, Remove, Update};
-    
+
+    /**
+     * Different types of transactions that are published
+     */
+    public enum TransactionType {
+
+        Create, Remove, Update
+    };
 
     HashSet<Class> classSet;
+    Publisher publisher; // Publishing mechanism to be used. TODO: inject here
 
     public MessageSender() {
         init();
@@ -50,6 +54,7 @@ public class MessageSender {
     private void init() {
         classSet = new HashSet<Class>();
         Collections.addAll(classSet, publishedClasses);
+        publisher = new JMSPublisher(); // TODO: inject instead.
     }
 
     // Returns true for objects belonging to 
@@ -62,32 +67,36 @@ public class MessageSender {
 
     @PostPersist
     /**
-     * Callback for entity changes
+     * Callback for entity creation
      */
-    public void entityCreated(Object entity) throws JMSException, NamingException, IOException {
-        if (amServicing(entity))
-            Publisher.publish(entity, TransactionType.Create);
-     
+    public void entityCreated(Object entity) throws Exception {
+        publish(entity, TransactionType.Create);
+
     }
-    
+
     @PostUpdate
-       /**
-     * Callback for entity changes
+    /**
+     * Callback for entity update
      */
-    public void entityUpdated(Object entity) throws JMSException, NamingException, IOException {
-        if (amServicing(entity))
-            Publisher.publish(entity, TransactionType.Update);
-     
+    public void entityUpdated(Object entity) throws Exception {
+        publish(entity, TransactionType.Update);
+
     }
-    
+
     @PostRemove
-       /**
-     * Callback for entity changes
+    /**
+     * Callback for entity removal
      */
-    public void entityRemoved(Object entity) throws JMSException, NamingException, IOException {
-        if (amServicing(entity))
-            Publisher.publish(entity, TransactionType.Remove);
-     
+    public void entityRemoved(Object entity) throws Exception {
+        publish(entity, TransactionType.Remove);
+
     }
-    
+
+    private void publish(Object entity, TransactionType type) throws Exception {
+        if (amServicing(entity)) {
+            publisher.publish(entity, type);
+        }
+
+    }
+
 }
