@@ -5,6 +5,7 @@
  */
 package jms;
 
+import applet.DatabaseViewApplet;
 import applet.RolesTable;
 import applet.UserTable;
 import java.io.IOException;
@@ -62,16 +63,10 @@ public class MessageReceiver implements MessageListener, ExceptionListener {
     }
 
     //MessageReceiverApplet applet;
-    UserTable userApplet;
-    //SkillsTable applet
-    RolesTable rolesApplet;
+    DatabaseViewApplet applets;
 
-    public void setRolesApplet(RolesTable applet) {
-        this.rolesApplet = applet;
-    }
-
-    public void setUserApplet(UserTable applet) {
-        this.userApplet = applet;
+    public void setApplet(DatabaseViewApplet applet) {
+        this.applets = applet;
     }
 
     public void onMessage(Message message) {
@@ -80,8 +75,7 @@ public class MessageReceiver implements MessageListener, ExceptionListener {
             CommunicationMessage communicationMessage = (CommunicationMessage) objectMessage.getObject();
             String name = communicationMessage.getName();
             String sentMessage = communicationMessage.getMessage();
-            rolesApplet.refresh(name, sentMessage);
-            userApplet.refresh(name, sentMessage);
+            applets.refresh(name, sentMessage);
       
         } catch (JMSException ex) {
             Logger.getLogger(ProduceSender.class.getName()).log(Level.SEVERE, null, ex);

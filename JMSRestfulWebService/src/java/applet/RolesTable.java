@@ -20,8 +20,9 @@ import jms.MessageReceiver;
  *
  * @author junxin
  */
-public class RolesTable extends javax.swing.JApplet {
+public class RolesTable extends DatabaseViewApplet {
 
+    String source = "http://localhost:8080/JMSRestfulWebService/webresources/entities.userroles/roles";
     /**
      * Initializes the applet UserTable
      */
@@ -64,7 +65,7 @@ public class RolesTable extends javax.swing.JApplet {
                 }
             });
             MessageReceiver mr = new MessageReceiver();
-            mr.setRolesApplet(this);
+            mr.setApplet(this);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -105,7 +106,7 @@ public class RolesTable extends javax.swing.JApplet {
     }// </editor-fold>//GEN-END:initComponents
 
     private void refresh() throws MalformedURLException, IOException {
-        URL oracle = new URL("http://localhost:8080/JMSRestfulWebService/webresources/entities.userroles/roles");
+        URL oracle = new URL(source);
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(oracle.openStream()));
 
@@ -117,9 +118,10 @@ public class RolesTable extends javax.swing.JApplet {
         in.close();
     }
 
+    @Override
     public void refresh(String name, String message) throws MalformedURLException, IOException {
         if (name.equals("entities.Userroles") && message.equals("Create")) {
-            URL oracle = new URL("http://localhost:8080/JMSRestfulWebService/webresources/entities.userroles/roles");
+            URL oracle = new URL(source);
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(oracle.openStream()));
 

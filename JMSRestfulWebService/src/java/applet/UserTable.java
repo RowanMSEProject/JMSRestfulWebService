@@ -20,7 +20,7 @@ import jms.MessageReceiver;
  *
  * @author junxin
  */
-public class UserTable extends javax.swing.JApplet {
+public class UserTable extends DatabaseViewApplet {
 
     /**
      * Initializes the applet UserTable
@@ -64,7 +64,7 @@ public class UserTable extends javax.swing.JApplet {
                 }
             });
             MessageReceiver mr = new MessageReceiver();
-            mr.setUserApplet(this);
+            mr.setApplet(this);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -117,6 +117,7 @@ public class UserTable extends javax.swing.JApplet {
         in.close();
     }
 
+    @Override
     public void refresh(String name, String message) throws MalformedURLException, IOException {
         if (name.equals("entities.Login") && message.equals("Create")) {
             URL oracle = new URL("http://localhost:8080/JMSRestfulWebService/webresources/entities.login/users");
