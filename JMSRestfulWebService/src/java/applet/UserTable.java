@@ -22,6 +22,7 @@ import jms.MessageReceiver;
  */
 public class UserTable extends DatabaseViewApplet {
 
+    String source = "http://localhost:8080/JMSRestfulWebService/webresources/entities.login/users";
     /**
      * Initializes the applet UserTable
      */
@@ -105,7 +106,7 @@ public class UserTable extends DatabaseViewApplet {
     }// </editor-fold>//GEN-END:initComponents
 
     private void refresh() throws MalformedURLException, IOException {
-        URL oracle = new URL("http://localhost:8080/JMSRestfulWebService/webresources/entities.login/users");
+        URL oracle = new URL(source);
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(oracle.openStream()));
 
@@ -118,19 +119,10 @@ public class UserTable extends DatabaseViewApplet {
     }
 
     @Override
-    public void refresh(String name, String message) throws MalformedURLException, IOException {
-        if (name.equals("entities.Login") && message.equals("Create")) {
-            URL oracle = new URL("http://localhost:8080/JMSRestfulWebService/webresources/entities.login/users");
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(oracle.openStream()));
-
-            String inputLine;
-            textarea.setText("");
-            while ((inputLine = in.readLine()) != null) {
-                textarea.append(inputLine + "\n");
-            }
-            in.close();
-        }
+    public void refresh(String name, String message) 
+            throws MalformedURLException, IOException {
+        super.refresh(name, message, "entities.Login", 
+                "Create",source, textarea);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -23,6 +23,7 @@ import jms.MessageReceiver;
 public class RolesTable extends DatabaseViewApplet {
 
     String source = "http://localhost:8080/JMSRestfulWebService/webresources/entities.userroles/roles";
+
     /**
      * Initializes the applet UserTable
      */
@@ -119,19 +120,9 @@ public class RolesTable extends DatabaseViewApplet {
     }
 
     @Override
-    public void refresh(String name, String message) throws MalformedURLException, IOException {
-        if (name.equals("entities.Userroles") && message.equals("Create")) {
-            URL oracle = new URL(source);
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(oracle.openStream()));
-
-            String inputLine;
-            textarea.setText("");
-            while ((inputLine = in.readLine()) != null) {
-                textarea.append(inputLine + "\n");
-            }
-            in.close();
-        }
+    public void refresh(String name, String message) throws IOException {
+        super.refresh(name, message,
+                "entities.Userroles", "Create", source, textarea);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
