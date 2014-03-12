@@ -5,6 +5,7 @@
  */
 package jms;
 
+import applet.RolesTable;
 import applet.UserTable;
 import java.io.IOException;
 import java.util.Properties;
@@ -31,8 +32,8 @@ import javax.ws.rs.Path;
 
 /**
  *
- * @author junxin
- * Implementation of JMS subscriber/listener for publisher messages
+ * @author junxin Implementation of JMS subscriber/listener for publisher
+ * messages
  */
 public class MessageReceiver implements MessageListener, ExceptionListener {
 
@@ -41,20 +42,19 @@ public class MessageReceiver implements MessageListener, ExceptionListener {
     /**
      * @param args the command line arguments
      */
-
     public MessageReceiver() throws JMSException, NamingException, IOException {
         // MessageReceiver mr=new MessageReceiver();
-        
+
         // Get TOPIC
         Context initialContext = MessageReceiver.getInitialContext();
         Topic topic = (Topic) initialContext.lookup(ProduceSender.TOPIC);
-        
+
         // Create Topic Connection
-        TopicConnectionFactory topicConnectionFactory = 
-                (TopicConnectionFactory) initialContext.lookup("jms/myTopicFactory");
-        TopicConnection topicConnection = 
-                topicConnectionFactory.createTopicConnection();
-        
+        TopicConnectionFactory topicConnectionFactory
+                = (TopicConnectionFactory) initialContext.lookup("jms/myTopicFactory");
+        TopicConnection topicConnection
+                = topicConnectionFactory.createTopicConnection();
+
         // Subscribe for topic notification
         subscribe(topicConnection, topic);
         topicConnection.start();
@@ -63,11 +63,13 @@ public class MessageReceiver implements MessageListener, ExceptionListener {
 
     //MessageReceiverApplet applet;
     UserTable userApplet;
+    //SkillsTable applet
+    RolesTable rolesApplet;
 
-//    public void setApplet(MessageReceiverApplet applet) {
-//        this.applet = applet;
-//    }
-    
+    public void setRolesApplet(RolesTable applet) {
+        this.rolesApplet = applet;
+    }
+
     public void setUserApplet(UserTable applet) {
         this.userApplet = applet;
     }
@@ -76,8 +78,11 @@ public class MessageReceiver implements MessageListener, ExceptionListener {
         try {
             ObjectMessage objectMessage = (ObjectMessage) message;
             CommunicationMessage communicationMessage = (CommunicationMessage) objectMessage.getObject();
-            userApplet.refresh();
-
+            String name = communicationMessage.getName();
+            String sentMessage = communicationMessage.getMessage();
+            rolesApplet.refresh(name, sentMessage);
+            userApplet.refresh(name, sentMessage);
+      
         } catch (JMSException ex) {
             Logger.getLogger(ProduceSender.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -85,18 +90,16 @@ public class MessageReceiver implements MessageListener, ExceptionListener {
         }
     }
 
-    public void subscribe(TopicConnection topicConnection, Topic topic) 
-            throws JMSException, IOException 
-    {
-        TopicSession subscribeSession = 
-                topicConnection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
-        TopicSubscriber topicSubscriber = 
-                subscribeSession.createSubscriber(topic);
-        
+    public void subscribe(TopicConnection topicConnection, Topic topic)
+            throws JMSException, IOException {
+        TopicSession subscribeSession
+                = topicConnection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
+        TopicSubscriber topicSubscriber
+                = subscribeSession.createSubscriber(topic);
+
         topicSubscriber.setMessageListener(this);
         topicConnection.setExceptionListener(this);
-       
-        
+
         /*
          BufferedReader reader=new BufferedReader(new InputStreamReader(System.in));
          String message=null;
@@ -108,7 +111,6 @@ public class MessageReceiver implements MessageListener, ExceptionListener {
          }
          }
          */
-
     }
 
     public void onException(JMSException exception) {

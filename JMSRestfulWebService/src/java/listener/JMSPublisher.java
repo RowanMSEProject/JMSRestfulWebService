@@ -24,6 +24,9 @@ public class JMSPublisher implements Publisher {
             throws JMSException, NamingException, IOException {
 
         ProduceSender.publish(entity.getClass().getName(), transactionType.toString());
+        //for testing
+        System.out.println(entity.getClass().getName());
+        System.out.println(transactionType.toString());
         System.out.println("Publishing: " + entity + " changed ");
     }
 

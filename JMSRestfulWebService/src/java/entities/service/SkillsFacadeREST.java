@@ -86,5 +86,5 @@ public class SkillsFacadeREST extends AbstractFacade<Skills> {
     protected EntityManager getEntityManager() {
         return em;
     }
-    
+     
 }

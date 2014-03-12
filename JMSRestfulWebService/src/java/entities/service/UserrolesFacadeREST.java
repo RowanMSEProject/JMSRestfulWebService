@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -97,6 +98,33 @@ public class UserrolesFacadeREST extends AbstractFacade<Userroles> {
             answer = answer + "<option value=\"" + result.getRoleid() + "\">" + result.getDescription() + "</option>";
         }
         answer = answer + "</select>";
+        return answer;
+    }
+    
+    @POST
+    @Path("/create")
+    @Consumes({"application/x-www-form-urlencoded", "application/xml", "application/json"})
+    public void createRole(@FormParam("role") String role) {
+            List<Userroles> roles = em.createNamedQuery("Userroles.findAll").getResultList();
+            int id = roles.get(roles.size() - 1).getRoleid();
+            id++;
+            Userroles newRole = new Userroles(id, role);
+            super.create(newRole);
+    }
+    
+    @GET
+    @Path("/roles")
+    @Consumes({"application/x-www-form-urlencoded", "application/xml", "application/json"})
+    public String getRoles() {
+        final String format = "%s\t\t%s\n";
+
+        String answer = String.format(format, "ID", "Description");
+        answer += "============================\n";
+
+        List<Userroles> roles = em.createNamedQuery("Userroles.findAll").getResultList();
+        for (Userroles u : roles) {
+            answer += String.format(format, u.getRoleid(), u.getDescription());
+        }
         return answer;
     }
 
