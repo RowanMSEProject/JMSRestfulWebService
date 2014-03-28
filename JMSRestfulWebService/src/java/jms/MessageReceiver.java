@@ -5,9 +5,7 @@
  */
 package jms;
 
-import applet.DatabaseViewApplet;
-import applet.RolesTable;
-import applet.UserTable;
+import applet.ViewerApplet;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -26,10 +24,6 @@ import javax.jms.TopicSubscriber;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
 
 /**
  *
@@ -63,9 +57,9 @@ public class MessageReceiver implements MessageListener, ExceptionListener {
     }
 
     //MessageReceiverApplet applet;
-    DatabaseViewApplet applets;
+    ViewerApplet applets;
 
-    public void setApplet(DatabaseViewApplet applet) {
+    public void setApplet(ViewerApplet applet) {
         this.applets = applet;
     }
 

@@ -18,16 +18,19 @@ import jms.ProduceSender;
 public class JMSPublisher implements Publisher {
 
     @Override
-    public void publish(
-            Object entity,
-            MessageSender.TransactionType transactionType)
+    public void publish(Object entity,
+                        MessageSender.TransactionType transactionType)
             throws JMSException, NamingException, IOException {
 
-        ProduceSender.publish(entity.getClass().getName(), transactionType.toString());
-        //for testing
-        System.out.println(entity.getClass().getName());
-        System.out.println(transactionType.toString());
-        System.out.println("Publishing: " + entity + " changed ");
+        ProduceSender.publish(entity.getClass().getName(), 
+                transactionType.toString());
+        
+        //Testing
+        /*
+         System.out.println(entity.getClass().getName());
+         System.out.println(transactionType.toString());
+         System.out.println("Publishing: " + entity + " changed ");
+         */
     }
 
 }

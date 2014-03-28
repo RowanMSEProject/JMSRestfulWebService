@@ -7,7 +7,6 @@ package jms;
 
 import java.io.IOException;
 import java.util.Properties;
-import static javax.jms.JMSContext.AUTO_ACKNOWLEDGE;
 import javax.jms.JMSException;
 import javax.jms.ObjectMessage;
 import javax.jms.Topic;
@@ -18,23 +17,20 @@ import javax.jms.TopicSession;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import static javax.jms.JMSContext.AUTO_ACKNOWLEDGE;
 
 /**
- *
+ * 
  * @author junxin
  */
 public class ProduceSender {
 
     public static final String TOPIC = "jms/myTopic1";
     
-            
-    /**
-     * @param args the command line arguments
-     * For debugging
-     */
-
-    // Create a JMS topic connection and 
-    // connect to GlassFish TOPIC
+    /** 
+     * Create a JMS topic connection and 
+     * connect to GlassFish TOPIC
+     */ 
     public static void publish(String channel, String message) 
             throws JMSException, NamingException, IOException 
     {
@@ -58,14 +54,16 @@ public class ProduceSender {
         // Publish message to the Topic 
         ObjectMessage objectMessage = publishSession.createObjectMessage();
         objectMessage.setObject(new CommunicationMessage(
-                channel, 
-                message));
+                                    channel, 
+                                    message));
         topicPublisher.publish(objectMessage);
         
     }
 
-    // Configure  properties for connecting
-    // to GlassFish server
+    /** 
+     * Configure  properties for connecting
+     * to GlassFish server
+     */
     public static Context getInitialContext() throws JMSException, NamingException 
     {
         Properties properties = new Properties();

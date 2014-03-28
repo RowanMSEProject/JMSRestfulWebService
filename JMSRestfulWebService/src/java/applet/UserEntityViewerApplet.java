@@ -6,18 +6,26 @@
 package applet;
 
 /**
- *
+ * This is a class template that may be expanded in the future to include
+ * additional functionality for dealing with the User Information table
+ * in the database
+ * 
  * @author Christopher Crouch
  */
-public class UserTable extends DatabaseViewApplet {
+public class UserEntityViewerApplet extends ViewerApplet {
 
-    String source = "http://localhost:8080/JMSRestfulWebService/webresources/entities.login/users";
+    String url = "http://localhost:8080/JMSRestfulWebService/webresources/entities.login/users";
     String service = "entities.Login";
     String command = "Create";
 
+    /**
+     *************************** 
+     * Accessor methods
+     ***************************
+     */
     @Override
     public String getURL() {
-        return source;
+        return url;
     }
 
     @Override

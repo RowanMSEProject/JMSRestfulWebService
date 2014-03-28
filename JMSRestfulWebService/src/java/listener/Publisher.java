@@ -18,5 +18,6 @@ public interface Publisher {
      * involved in (create, update, delete)
      * @throws Exception
      */
-    public void publish(Object entity, MessageSender.TransactionType transactionType) throws Exception;
+    public void publish(Object entity, 
+            MessageSender.TransactionType transactionType) throws Exception;
 }

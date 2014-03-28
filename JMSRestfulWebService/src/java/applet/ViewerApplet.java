@@ -19,33 +19,34 @@ import jms.MessageReceiver;
  *
  * @author mse
  */
-public abstract class DatabaseViewApplet extends JApplet {
+public abstract class ViewerApplet extends JApplet {
 
     /**
      * Initialization method that will be called after the applet is loaded into
      * the browser.
      */
     final public void init() {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+        /* Set the Nimbus look and feel 
+         * <editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+         * If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.resource.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            for (javax.swing.UIManager.LookAndFeelInfo info
+                    : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UserTable.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UserEntityViewerApplet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UserTable.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UserEntityViewerApplet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UserTable.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UserEntityViewerApplet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UserTable.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UserEntityViewerApplet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -58,7 +59,7 @@ public abstract class DatabaseViewApplet extends JApplet {
                     try {
                         setup();
                     } catch (IOException ex) {
-                        Logger.getLogger(UserTable.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(UserEntityViewerApplet.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             });
@@ -68,7 +69,7 @@ public abstract class DatabaseViewApplet extends JApplet {
             ex.printStackTrace();
         }
     }
-    
+
     /**
      * This method is called from within the init() method to initialize the
      * form. WARNING: Do NOT modify this code. The content of this method is
@@ -103,10 +104,16 @@ public abstract class DatabaseViewApplet extends JApplet {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     *  Gets initial informaiton from the URL to be
+     *  displayed in the Applet's textArea
+     * @throws MalformedURLException
+     * @throws IOException 
+     */
     final void setup() throws MalformedURLException, IOException {
-        URL oracle = new URL(getURL());
+        URL resource = new URL(getURL());
         BufferedReader in = new BufferedReader(
-                new InputStreamReader(oracle.openStream()));
+                new InputStreamReader(resource.openStream()));
 
         String inputLine;
         textarea.setText("");
@@ -115,19 +122,27 @@ public abstract class DatabaseViewApplet extends JApplet {
         }
         in.close();
     }
-    
-    abstract public String getURL();
-    
-    abstract public String getService();
-    
-    abstract public String getCommand();
-    
-    final public void refresh(String name, String message)
-            throws MalformedURLException, IOException {
-        if (name.equals(getService()) && message.equals(getCommand())) {
-            URL oracle = new URL(getURL());
+
+
+
+    /**
+     * Refreshes the applet by fetching new data from the URL
+     * if the updated information is relevant to the applet
+     * 
+     * @param entityName
+     * @param entityCommand
+     * @throws MalformedURLException
+     * @throws IOException 
+     */
+    final public void refresh(String entityName, String entityCommand)
+            throws MalformedURLException, IOException 
+    {
+        if (entityName.equals(getService()) && 
+            entityCommand.equals(getCommand())) 
+        {    
+            URL resource = new URL(getURL());
             BufferedReader in = new BufferedReader(
-                    new InputStreamReader(oracle.openStream()));
+                    new InputStreamReader(resource.openStream()));
 
             String inputLine;
             textarea.setText("");
@@ -137,6 +152,12 @@ public abstract class DatabaseViewApplet extends JApplet {
             in.close();
         }
     }
+
+    abstract public String getURL();
+
+    abstract public String getService();
+
+    abstract public String getCommand();
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;

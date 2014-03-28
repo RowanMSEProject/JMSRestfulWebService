@@ -19,12 +19,15 @@ import javax.persistence.PostUpdate;
  */
 public class MessageSender {
 
-    // All entity classes that are participating
-    // in the pub/sub. 
-    // NOTE: At present this collection is statically specified.
-    // This can be changed to auto-discovering all classes in a given package 
-    // or a collection of packages using reflection. If in that case, the collection
-    // of package names would be specified. Alternatively, this information can be injected.
+    /** All entity classes that are participating 
+     * in the pub/sub. 
+     * 
+     * NOTE: At present the collection of entity classes specified statically.
+     * This can be changed to auto-discovery of all classes in a given package 
+     * or collection of packages using reflection. Alternatively, this 
+     * information can be injected.
+     *  
+     */
     final static Class[] publishedClasses
             = {
                 entities.Certnames.class,
@@ -36,33 +39,39 @@ public class MessageSender {
                 entities.Userroles.class};
 
     /**
-     * Different types of transactions that are published
+     * Types of transactions that are published
      */
     public enum TransactionType {
 
         Create, Remove, Update
     };
 
-    HashSet<Class> classSet;
-    Publisher publisher; // Publishing mechanism to be used. TODO: inject here
+    private HashSet<Class> classSet;
+    private Publisher publisher; // Publishing mechanism to be used. 
+                                 // TODO: inject here
 
+    /** Default constructor
+     *
+     */
     public MessageSender() {
         init();
-
     }
 
+    /**
+     * Generate the list of classes participating in pub/sub
+     *  and create publisher object
+     */
     private void init() {
         classSet = new HashSet<>();
         Collections.addAll(classSet, publishedClasses);
         publisher = new JMSPublisher(); // TODO: inject instead.
     }
 
-    // Returns true for objects belonging to 
-    // entity classes that are being published, false otherwise
+    /** Returns true for objects belonging to entity classes that
+     *  are being published (i.e., participate in pub/sub), false otherwise
+     */ 
     private boolean amServicing(Object entity) {
-
         return classSet.contains(entity.getClass());
-
     }
 
     @PostPersist
@@ -71,7 +80,6 @@ public class MessageSender {
      */
     public void entityCreated(Object entity) throws Exception {
         publish(entity, TransactionType.Create);
-
     }
 
     @PostUpdate
@@ -80,7 +88,6 @@ public class MessageSender {
      */
     public void entityUpdated(Object entity) throws Exception {
         publish(entity, TransactionType.Update);
-
     }
 
     @PostRemove
@@ -89,14 +96,19 @@ public class MessageSender {
      */
     public void entityRemoved(Object entity) throws Exception {
         publish(entity, TransactionType.Remove);
-
     }
 
-    private void publish(Object entity, TransactionType type) throws Exception {
+    /**
+     * Publish the entity object if it belongs to the list 
+     * of classes participating in pub/sub
+     * 
+     */
+    private void publish(Object entity, TransactionType type) 
+            throws Exception 
+    {
         if (amServicing(entity)) {
             publisher.publish(entity, type);
         }
-
     }
 
 }
