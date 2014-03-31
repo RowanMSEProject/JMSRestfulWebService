@@ -20,6 +20,8 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -63,6 +65,49 @@ public class LoginFacadeREST extends AbstractFacade<Login> {
         return super.find(id);
     }
 
+    /**
+     * delete a user from the database based off userID input
+     *
+     * @param userid
+     */
+    @POST
+    @Path("/rm")
+    @Consumes("application/x-www-form-urlencoded")
+    public void delete(@FormParam("userid") String userid) {
+        int id = Integer.parseInt(userid);
+        super.remove(super.find(id));
+    }
+    
+    /**
+     * Create a table of information about users from Login table
+     *
+     * @return
+     */
+    @GET
+    @Path("users/table")
+    @Produces("text/html")
+    public String getUsersTable() {
+        if (em != null) {
+            List<Login> results = em.createQuery("SELECT L FROM Login L").getResultList();
+            String answer = "<h2> Users </h2>" + "<br><table border='1'> <tr>";
+            answer = answer + "<th>USERID</th><th>FIRST NAME</th><th>LAST NAME</th><th>USERNAME</th><th>PASSWORD</th><th>ROLE</th></tr>";
+            for (Login result : results) {
+                answer = answer + "<tr><td>" + result.getUserid() + "</td>";
+                answer = answer + "<td>" + result.getFirstname() + "</td>";
+                answer = answer + "<td>" + result.getLastname() + "</td>";
+                answer = answer + " <td>" + result.getUsername() + "</td>";
+                answer = answer + " <td>" + result.getPassword() + "</td>";
+                answer = answer + " <td>" + result.getRoleid().getDescription() + "</td></tr>";
+            }
+            answer = answer + "</table>";
+            return answer;
+        } else {
+            throw new WebApplicationException(Response.status(400)
+                    .entity("Null entity manager")
+                    .build());
+        }
+    }
+    
     @GET
     @Override
     @Produces({"application/xml", "application/json"})

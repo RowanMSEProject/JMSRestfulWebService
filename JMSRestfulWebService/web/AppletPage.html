@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script type="text/javascript" src="https://localhost:8443/owf/js-min/owf-widget-debug.js"></script>
+        <script type="text/javascript">
+            function init() {
+                OWF.Eventing.subscribe("DBchanged", this.listenerFunc);
+            }
+
+            // Listen for messages from OWF events:
+            // Requests to publish a message 
+            // when it arrives from OWF pub/sub
+            function listenerFunc(sender, msg) {
+                appletTest.onMessage(msg.toString());
+            }
+            
+            // Receive a message from outside event
+            // Sends a message to the OWF pub/sub facility
+            function receiverFunc(msg) {
+                OWF.Eventing.publish("FromApplet", "refresh");
+                setTimeout(function() { location.reload();}, 150);
+                return true;
+            }
+
+            owfdojo.addOnLoad(function() {
+                OWF.ready(init);
+            });
+        </script>
+        <script language="JavaScript" src="clientSideInclude.js"></script>
+    </head>
+    <body>
+        <div></div>
+        <script src="https://www.java.com/js/deployJava.js"></script>
+        <applet code ="applet.appletTest.class" archive="TestApplet.jar"></applet>
+        
+        <!-- Runs the given applet in the HTML page and makes it accessable through the
+             appletTest tag -->
+        <script language="javascript">
+            var attributes = { id:'appletTest', code:'applet.appletTest.class', archive:'TestApplet.jar',  width:1, height:1} ;
+            var parameters = {} ;
+            deployJava.runApplet(attributes, parameters, '1.6');
+        </script>
+    </body>
+</html>

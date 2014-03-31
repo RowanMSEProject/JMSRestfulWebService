@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script type="text/javascript" src="https://localhost:8443/owf/js-min/owf-widget-debug.js"></script>
+        <script type="text/javascript">
+            function init() {
+                OWF.Eventing.subscribe("FromApplet", this.listenerFunc);
+            }
+
+            function listenerFunc(sender, message) {
+                setTimeout(function() { location.reload();}, 1500);
+            }
+
+            owfdojo.addOnLoad(function() {
+                OWF.ready(init);
+            });
+
+        </script>
+        <script language="JavaScript" src="clientSideInclude.js"></script>
+    </head>
+    <body onLoad="clientSideInclude('includeone', 'https://localhost:8181/JMSRestfulWebService/webresources/entities.login/users/table');">
+        <div id="includeone"></div>
+    </body>
+</html>

@@ -9,6 +9,14 @@ and open the template in the editor.
         <title>Create New User</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width">
+        <script type="text/javascript" src="https://localhost:8443/owf/js-min/owf-widget-debug.js"></script>
+        <script type="text/javascript">
+            function message( ) {
+                OWF.Eventing.publish("DBchanged", "created");
+                setTimeout(function() { location.reload();}, 150);
+                return true;
+            }
+        </script>
         <script language="JavaScript" src="clientSideInclude.js"></script>
     </head>
     <body onLoad="clientSideInclude('includeone', 'https://localhost:8181/JMSRestfulWebService/webresources/entities.userroles/list');">
