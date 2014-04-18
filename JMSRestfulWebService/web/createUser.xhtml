@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>Create User</title>
+        <meta name="viewport" content="width=device-width"/>
+    </h:head>
+    <h:body>
+        <h1>Create User</h1>
+        <hr/>
+        <h:form>
+            <h:panelGrid columns="2" >
+                <h:outputLabel value="First Name : "/>
+                <h:inputText value="#{UserBean.user.firstname}"/>
+                <h:outputLabel value="Last Name :"/>
+                <h:inputText value="#{UserBean.user.lastname}"/>
+                <h:outputLabel value="Username : "/>
+                <h:inputText value="#{UserBean.user.username}"/>
+                <h:outputLabel value="Password : "/>
+                <h:inputSecret value="#{UserBean.user.password}"/>
+                <h:outputLabel value="Role : "/>
+            </h:panelGrid>
+            <h:commandButton value="Create User" action="#{UserBean.createUser}"/>
+        </h:form>
+        <h:form>
+            <h:commandButton value="User List" action="#{UserBean.showList}"/>
+        </h:form>
+        <hr/>
+
+    </h:body>
+</html>

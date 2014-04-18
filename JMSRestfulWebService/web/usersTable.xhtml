@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>List of the employees</title>
+    </h:head>
+    <h:body>
+        <h1>List of the employees</h1>
+        <hr/>
+        <h:dataTable value="#{UserBean.users}" var="u">
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="First Name"/>
+                    </f:facet>
+                    <h:outputText value="#{u.firstname}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Last Name"/>
+                    </f:facet>
+                    <h:outputText value="#{u.lastname}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="User Name"/>
+                    </f:facet>
+                    <h:outputText value="#{u.username}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Password"/>
+                    </f:facet>
+                    <h:outputText value="#{u.password}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Role"/>
+                    </f:facet>
+                    <h:outputText value="#{u.roleid.description}"/>
+                </h:column>
+                <h:column>
+                    <h:commandButton id="submit" value="Delete" action="l"/>
+                </h:column>
+        </h:dataTable>
+        <h:form>
+            <h:link outcome="createUser.xhtml" value="Create new User"/>
+        </h:form>
+        <hr/>
+    </h:body>
+</html>

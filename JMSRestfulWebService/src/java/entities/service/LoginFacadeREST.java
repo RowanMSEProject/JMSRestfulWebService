@@ -167,5 +167,20 @@ public class LoginFacadeREST extends AbstractFacade<Login> {
         }
         return answer;
     }
+    
+    public Login createUsers(Login user){
+        em.persist(user);
+        return user;
+    }
+    
+    public Login updateUsers(Login user){
+        em.refresh(user);
+        return user;
+    }
+    
+    public Login removeUsers(Login user){
+        em.remove(user);
+        return user;
+    }
 
 }
