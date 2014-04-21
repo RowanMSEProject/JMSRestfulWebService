@@ -178,9 +178,8 @@ public class LoginFacadeREST extends AbstractFacade<Login> {
         return user;
     }
     
-    public Login removeUsers(Login user){
-        em.remove(user);
-        return user;
+    public void removeUsers(Login user){
+        super.remove(user);
     }
 
 }

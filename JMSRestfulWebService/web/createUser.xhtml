@@ -29,6 +29,7 @@ and open the template in the editor.
                 <h:outputLabel value="Password : "/>
                 <h:inputSecret value="#{UserBean.user.password}"/>
                 <h:outputLabel value="Role : "/>
+                <h:selectOneMenu value="#{UserBean.showList}"/>
             </h:panelGrid>
             <h:commandButton value="Create User" action="#{UserBean.createUser}"/>
         </h:form>

@@ -47,7 +47,7 @@ and open the template in the editor.
                     <h:outputText value="#{u.roleid.description}"/>
                 </h:column>
                 <h:column>
-                    <h:commandButton id="submit" value="Delete" action="l"/>
+                    <h:commandButton id="submit" value="Delete" action="#{UserBean.removeUser(u.userid)}"/>
                 </h:column>
         </h:dataTable>
         <h:form>

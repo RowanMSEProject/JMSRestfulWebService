@@ -54,10 +54,10 @@ public class UserBean implements Serializable{
         return showList();
     }
     
-    public String removeUser(){
-        user=lfr.removeUsers(user);
-       return showList();
-    }
+//    public String removeUser(){
+//        user=lfr.removeUsers(user);
+//       return showList();
+//    }
     
     public String showList(){
         users=lfr.findAll();
@@ -80,4 +80,7 @@ public class UserBean implements Serializable{
         this.users = users;
     }
     
+    public void removeUser(int userid) {
+        lfr.remove(userid);
+    }
 }
