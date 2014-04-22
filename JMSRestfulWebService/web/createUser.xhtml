@@ -30,7 +30,7 @@ and open the template in the editor.
                 <h:inputSecret value="#{UserBean.user.password}"/>
                 <h:outputLabel value="Role : "/>
                 <h:selectOneMenu value="#{UserBean.user.roleid}">
-                    <f:selectItems value="#{UserBean.role}" var="role" 
+                    <f:selectItems value="#{UserBean.roles}" var="role" 
                                    itemLabel="#{role.description}"
                                    itemValue="#{role}"/>
                 </h:selectOneMenu>

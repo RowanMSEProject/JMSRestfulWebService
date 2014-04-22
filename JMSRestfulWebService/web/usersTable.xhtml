@@ -11,6 +11,9 @@ and open the template in the editor.
       xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
         <title>List of the employees</title>
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{UserBean.showList}"/>
+        </f:metadata>
     </h:head>
     <h:body>
         <h1>List of the employees</h1>

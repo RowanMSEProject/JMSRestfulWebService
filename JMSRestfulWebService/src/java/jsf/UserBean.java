@@ -17,7 +17,6 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.model.SelectItem;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -37,7 +36,6 @@ public class UserBean implements Serializable{
     List<Userroles> roles;
     
     public UserBean(){
-        
         user=new Login();
     }
     
@@ -46,8 +44,8 @@ public class UserBean implements Serializable{
         return showList();
     }
     
-    public Userroles createRole(int roleID) {
-        Userroles newRole = new Userroles(roleID);
+    public Userroles createRole(Long roleID) {
+        Userroles newRole = new Userroles(roleID.intValue());
         return newRole;
     }
     
@@ -86,8 +84,14 @@ public class UserBean implements Serializable{
         lfr.remove(userid);
     }
     
-    public List<Userroles> getRole() {
-        return urfr.findAll();
+    public List<SelectItem> getRoles() {
+        List<SelectItem> items = new ArrayList<SelectItem>();
+        roles=urfr.findAll();
+        for(Userroles r: roles){
+            items.add(new SelectItem(r.getRoleid().toString(), r.getDescription()));
+        }
+        
+        return items;
     }
     
 }

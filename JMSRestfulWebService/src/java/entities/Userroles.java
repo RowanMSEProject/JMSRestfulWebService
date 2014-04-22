@@ -54,7 +54,7 @@ public class Userroles implements Serializable {
 
     public Userroles() {
     }
-
+    
     public Userroles(Integer roleid) {
         this.roleid = roleid;
     }
@@ -111,7 +111,7 @@ public class Userroles implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Userroles[ roleid=" + roleid + " ]";
+        return ""+roleid;
     }
     
 }
