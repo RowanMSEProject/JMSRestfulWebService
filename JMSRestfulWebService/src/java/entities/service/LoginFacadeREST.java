@@ -169,7 +169,7 @@ public class LoginFacadeREST extends AbstractFacade<Login> {
     }
     
     public Login createUsers(Login user){
-        em.persist(user);
+        super.create(user);
         return user;
     }
     
@@ -181,5 +181,5 @@ public class LoginFacadeREST extends AbstractFacade<Login> {
     public void removeUsers(Login user){
         super.remove(user);
     }
-
+    
 }

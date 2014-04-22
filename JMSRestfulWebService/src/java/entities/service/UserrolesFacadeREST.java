@@ -6,6 +6,7 @@
 package entities.service;
 
 import entities.Userroles;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -64,7 +65,7 @@ public class UserrolesFacadeREST extends AbstractFacade<Userroles> {
 
     @GET
     @Override
-    @Produces({"application/xml", "application/json"})
+    @Produces("text/plain")
     public List<Userroles> findAll() {
         return super.findAll();
     }
@@ -126,6 +127,28 @@ public class UserrolesFacadeREST extends AbstractFacade<Userroles> {
             answer += String.format(format, u.getRoleid(), u.getDescription());
         }
         return answer;
+    }
+    
+    @GET
+    @Produces("text/plain")
+    public List<Integer> findroleIDs() {
+        List<Userroles> temp = super.findAll();
+        List<Integer> ids = new ArrayList<Integer>();
+        for(Userroles u : temp) {
+            ids.add(u.getRoleid());
+        }
+        return ids;
+    }
+    
+    @GET
+    @Produces("text/plain")
+    public List<String> findroleNames() {
+        List<Userroles> temp = super.findAll();
+        List<String> ids = new ArrayList<String>();
+        for(Userroles u : temp) {
+            ids.add(u.getDescription());
+        }
+        return ids;
     }
 
 }

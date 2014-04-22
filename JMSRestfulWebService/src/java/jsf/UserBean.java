@@ -26,27 +26,29 @@ import javax.swing.JOptionPane;
 @ManagedBean(name = "UserBean")
 @RequestScoped
 public class UserBean implements Serializable{
+    @EJB
+    UserrolesFacadeREST urfr;
 
-    /**
-     * Creates a new instance of UserBean
-     */
-    
     @EJB
     LoginFacadeREST lfr;
-    UserrolesFacadeREST urfr;
     
     Login user;
     List<Login> users;
+    List<Userroles> roles;
     
     public UserBean(){
-        lfr=new LoginFacadeREST();
-        urfr=new UserrolesFacadeREST();
+        
         user=new Login();
     }
     
     public String createUser() {
         user=lfr.createUsers(user);
         return showList();
+    }
+    
+    public Userroles createRole(int roleID) {
+        Userroles newRole = new Userroles(roleID);
+        return newRole;
     }
     
     public String updateUser(){
@@ -83,4 +85,9 @@ public class UserBean implements Serializable{
     public void removeUser(int userid) {
         lfr.remove(userid);
     }
+    
+    public List<Userroles> getRole() {
+        return urfr.findAll();
+    }
+    
 }

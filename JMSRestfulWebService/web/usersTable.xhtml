@@ -22,32 +22,33 @@ and open the template in the editor.
                     </f:facet>
                     <h:outputText value="#{u.firstname}"/>
                 </h:column>
+                <h:column></h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Last Name"/>
                     </f:facet>
                     <h:outputText value="#{u.lastname}"/>
                 </h:column>
+                <h:column></h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="User Name"/>
                     </f:facet>
                     <h:outputText value="#{u.username}"/>
                 </h:column>
+                <h:column></h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Password"/>
                     </f:facet>
                     <h:outputText value="#{u.password}"/>
                 </h:column>
+                <h:column></h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Role"/>
                     </f:facet>
                     <h:outputText value="#{u.roleid.description}"/>
-                </h:column>
-                <h:column>
-                    <h:commandButton id="submit" value="Delete" action="#{UserBean.removeUser(u.userid)}"/>
                 </h:column>
         </h:dataTable>
         <h:form>
