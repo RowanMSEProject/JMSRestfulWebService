@@ -327,5 +327,4 @@ public class Login implements Serializable {
     public String toString() {
         return "entities.Login[ userid=" + userid + " ]";
     }
-    
 }

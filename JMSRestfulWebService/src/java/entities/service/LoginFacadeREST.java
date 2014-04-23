@@ -7,7 +7,12 @@ package entities.service;
 
 import entities.Login;
 import entities.Userroles;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -174,7 +179,13 @@ public class LoginFacadeREST extends AbstractFacade<Login> {
     }
     
     public Login updateUsers(Login user){
-        em.refresh(user);
+        Login oldUser=super.find(user.getUserid());
+        oldUser.setFirstname(user.getFirstname());
+        oldUser.setLastname(user.getLastname());
+        oldUser.setUsername(user.getUsername());
+        oldUser.setRoleid(user.getRoleid());
+        
+        super.edit(oldUser);
         return user;
     }
     

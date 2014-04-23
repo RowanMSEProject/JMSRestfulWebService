@@ -33,31 +33,26 @@ public class UserBean implements Serializable{
     
     Login user;
     List<Login> users;
+    List<Login> otherUsers;
     List<Userroles> roles;
     
     public UserBean(){
         user=new Login();
     }
     
-    public String createUser() {
-        user=lfr.createUsers(user);
-        return showList();
+    public void createUser() {
+        lfr.createUsers(user);
+        user=new Login();
     }
     
-    public Userroles createRole(Long roleID) {
-        Userroles newRole = new Userroles(roleID.intValue());
-        return newRole;
+    public void updateUser(){
+        lfr.updateUsers(user);
     }
     
-    public String updateUser(){
-        user=lfr.updateUsers(user);
-        return showList();
+    public void removeUser(){
+       lfr.delete(user.getUserid().toString());
+       user = new Login();
     }
-    
-//    public String removeUser(){
-//        user=lfr.removeUsers(user);
-//       return showList();
-//    }
     
     public String showList(){
         users=lfr.findAll();
@@ -71,9 +66,20 @@ public class UserBean implements Serializable{
     public void setUser(Login user) {
         this.user = user;
     }
-
-    public List<Login> getUsers() {
+    
+    public List<Login> getUsers(){
+        users=lfr.findAll();
         return users;
+    }
+    
+    public List<SelectItem> getOtherUsers() {
+        List<SelectItem> items = new ArrayList<SelectItem>();
+        users=lfr.findAll();
+        for(Login l: users){
+            items.add(new SelectItem(l.getUserid().toString(), l.getUsername()));
+        }
+        
+        return items;
     }
 
     public void setUsers(List<Login> users) {
@@ -94,4 +100,7 @@ public class UserBean implements Serializable{
         return items;
     }
     
+    public void setFields(){
+        user=lfr.find(user.getUserid());
+    }
 }
