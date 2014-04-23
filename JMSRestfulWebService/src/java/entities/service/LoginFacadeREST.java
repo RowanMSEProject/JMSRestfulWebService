@@ -7,12 +7,7 @@ package entities.service;
 
 import entities.Login;
 import entities.Userroles;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -178,6 +173,17 @@ public class LoginFacadeREST extends AbstractFacade<Login> {
         return user;
     }
     
+    public Login updatePassword(Login user, String oldPswd){
+        Login oldUser=super.find(user.getUserid());
+        String newPswd = user.getPassword();
+        
+        if(oldUser.getPassword().equals(oldPswd) && checkPassword(newPswd)){
+            oldUser.setPassword(newPswd);
+        }
+        
+        return user;
+    }
+    
     public Login updateUsers(Login user){
         Login oldUser=super.find(user.getUserid());
         oldUser.setFirstname(user.getFirstname());
@@ -193,4 +199,24 @@ public class LoginFacadeREST extends AbstractFacade<Login> {
         super.remove(user);
     }
     
+    /**
+     * Check the password to make sure it is 8 characters long and includes a
+     * capital letter, lowercase letter, and number
+     *
+     * @param password
+     * @return
+     */
+    private boolean checkPassword(String password) {
+        boolean hasUppercase = !password.equals(password.toLowerCase());
+        boolean hasLowercase = !password.equals(password.toUpperCase());
+        boolean isAtLeast8 = password.length() >= 8;//Checks for at least 8 characters
+        boolean hasDigit = false;
+        for (int i = 0; i < password.length(); i++) {
+            if (Character.isDigit(password.charAt(i))) {
+                hasDigit = true;
+                break;
+            }
+        }
+        return hasUppercase && hasLowercase && isAtLeast8 && hasDigit;
+    }
 }

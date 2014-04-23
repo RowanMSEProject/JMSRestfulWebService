@@ -35,6 +35,7 @@ public class UserBean implements Serializable{
     List<Login> users;
     List<Login> otherUsers;
     List<Userroles> roles;
+    String oldPswd = "";
     
     public UserBean(){
         user=new Login();
@@ -50,8 +51,10 @@ public class UserBean implements Serializable{
     }
     
     public void removeUser(){
-       lfr.delete(user.getUserid().toString());
-       user = new Login();
+        if(user.getUserid() != 0){
+            lfr.delete(user.getUserid().toString());
+            user = new Login();
+        }
     }
     
     public String showList(){
@@ -63,10 +66,18 @@ public class UserBean implements Serializable{
         return user;
     }
     
+    public String getOldPswd(){
+        return oldPswd;
+    }
+    
+    public void setOldPswd(String pass){
+        this.oldPswd=pass;
+    }
+    
     public void setUser(Login user) {
         this.user = user;
     }
-    
+     
     public List<Login> getUsers(){
         users=lfr.findAll();
         return users;
@@ -75,8 +86,10 @@ public class UserBean implements Serializable{
     public List<SelectItem> getOtherUsers() {
         List<SelectItem> items = new ArrayList<SelectItem>();
         users=lfr.findAll();
+        items.add(new SelectItem(0, "Select a User"));
+        
         for(Login l: users){
-            items.add(new SelectItem(l.getUserid().toString(), l.getUsername()));
+            items.add(new SelectItem(l.getUserid().toString(), l.getLastname()+", "+l.getFirstname()));
         }
         
         return items;
@@ -87,13 +100,15 @@ public class UserBean implements Serializable{
     }
     
     public void removeUser(int userid) {
-        lfr.remove(userid);
+        if(userid != 0){
+            lfr.remove(userid);
+        }
     }
     
     public List<SelectItem> getRoles() {
         List<SelectItem> items = new ArrayList<SelectItem>();
         roles=urfr.findAll();
-        for(Userroles r: roles){
+        for(Userroles r : roles){
             items.add(new SelectItem(r.getRoleid().toString(), r.getDescription()));
         }
         
@@ -102,5 +117,10 @@ public class UserBean implements Serializable{
     
     public void setFields(){
         user=lfr.find(user.getUserid());
+    }
+    
+    public void updatePassword(){
+        lfr.updatePassword(user, oldPswd);
+        user = new Login();
     }
 }
