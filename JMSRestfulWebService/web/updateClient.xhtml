@@ -6,9 +6,8 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
-
-        <ui:composition template="./AppTemplate.xhtml">
-            <ui:define name="box">
+        <ui:composition template="./editTemplate.xhtml">
+            <ui:define name="updateArea">
                 <h:form>
                     <h:selectOneMenu value="#{UserBean.user.userid}">
                         <f:selectItems value="#{UserBean.otherUsers}" var="user" 
