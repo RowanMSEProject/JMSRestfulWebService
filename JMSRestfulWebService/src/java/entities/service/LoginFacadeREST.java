@@ -173,15 +173,25 @@ public class LoginFacadeREST extends AbstractFacade<Login> {
         return user;
     }
     
-    public Login updatePassword(Login user, String oldPswd){
+    public String updatePassword(Login user, String oldPswd){
         Login oldUser=super.find(user.getUserid());
         String newPswd = user.getPassword();
+        String error = "";
         
-        if(oldUser.getPassword().equals(oldPswd) && checkPassword(newPswd)){
-            oldUser.setPassword(newPswd);
+        if(oldUser.getPassword().equals(oldPswd)){
+            if(checkPassword(newPswd)){
+                oldUser.setPassword(newPswd);
+            } else {
+                error="New Password must contain: "
+                        + "capital letters, "
+                        + "lower case letters, "
+                        + "a number, "
+                        + "and be 8 or more characters long";
+            }
+        } else {
+            error="Old password is incorrect.";
         }
-        
-        return user;
+        return error;
     }
     
     public Login updateUsers(Login user){

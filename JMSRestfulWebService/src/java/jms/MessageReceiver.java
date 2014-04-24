@@ -24,6 +24,7 @@ import javax.jms.TopicSubscriber;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -39,6 +40,7 @@ public class MessageReceiver implements MessageListener, ExceptionListener {
      */
     public MessageReceiver() throws JMSException, NamingException, IOException {
         // MessageReceiver mr=new MessageReceiver();
+        System.out.println("Making MR");
 
         // Get TOPIC
         Context initialContext = MessageReceiver.getInitialContext();
@@ -64,18 +66,19 @@ public class MessageReceiver implements MessageListener, ExceptionListener {
     }
 
     public void onMessage(Message message) {
-        try {
-            ObjectMessage objectMessage = (ObjectMessage) message;
-            CommunicationMessage communicationMessage = (CommunicationMessage) objectMessage.getObject();
-            String name = communicationMessage.getName();
-            String sentMessage = communicationMessage.getMessage();
-            applets.refresh(name, sentMessage);
-      
-        } catch (JMSException ex) {
-            Logger.getLogger(ProduceSender.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(MessageReceiver.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        System.out.println(message);
+//        try {
+//            ObjectMessage objectMessage = (ObjectMessage) message;
+//            CommunicationMessage communicationMessage = (CommunicationMessage) objectMessage.getObject();
+//            String name = communicationMessage.getName();
+//            String sentMessage = communicationMessage.getMessage();
+//            applets.refresh(name, sentMessage);
+//      
+//        } catch (JMSException ex) {
+//            Logger.getLogger(ProduceSender.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (IOException ex) {
+//            Logger.getLogger(MessageReceiver.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 
     public void subscribe(TopicConnection topicConnection, Topic topic)

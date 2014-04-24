@@ -36,6 +36,15 @@ public class UserBean implements Serializable{
     List<Login> otherUsers;
     List<Userroles> roles;
     String oldPswd = "";
+    String error = "";
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
     
     public UserBean(){
         user=new Login();
@@ -120,7 +129,7 @@ public class UserBean implements Serializable{
     }
     
     public void updatePassword(){
-        lfr.updatePassword(user, oldPswd);
+        error=lfr.updatePassword(user, oldPswd);
         user = new Login();
     }
 }
