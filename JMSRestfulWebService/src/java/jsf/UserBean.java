@@ -142,6 +142,9 @@ public class UserBean implements Serializable{
     
     public void updatePassword(){
         error=lfr.updatePassword(user, oldPswd);
-        user = new Login();
+        
+        if(error.isEmpty()){
+            user = new Login();
+        }
     }
 }
