@@ -37,6 +37,15 @@ public class UserBean implements Serializable{
     List<Userroles> roles;
     String oldPswd = "";
     String error = "";
+    String createError = "";
+
+    public String getCreateError() {
+        return createError;
+    }
+
+    public void setCreateError(String createError) {
+        this.createError = createError;
+    }
 
     public String getError() {
         return error;
@@ -51,8 +60,11 @@ public class UserBean implements Serializable{
     }
     
     public void createUser() {
-        lfr.createUsers(user);
-        user=new Login();
+        createError=lfr.newUser(user);
+        
+        if(createError.isEmpty()){
+            user=new Login();
+        }
     }
     
     public void updateUser(){

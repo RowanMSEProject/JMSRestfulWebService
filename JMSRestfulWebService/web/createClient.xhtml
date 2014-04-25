@@ -28,6 +28,7 @@
                             <f:converter converterId="RoleConverter" />
                         </h:selectOneMenu>
                     </h:panelGrid>
+                    <ui:insert name="createError"><p style="color:red">#{UserBean.createError}</p></ui:insert>
                     <h:commandButton value="Create User" action="#{UserBean.createUser}" />
                 </h:form>
             </ui:define>

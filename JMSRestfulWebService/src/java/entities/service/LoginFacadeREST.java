@@ -77,7 +77,7 @@ public class LoginFacadeREST extends AbstractFacade<Login> {
         int id = Integer.parseInt(userid);
         super.remove(super.find(id));
     }
-    
+
     /**
      * Create a table of information about users from Login table
      *
@@ -107,7 +107,7 @@ public class LoginFacadeREST extends AbstractFacade<Login> {
                     .build());
         }
     }
-    
+
     @GET
     @Override
     @Produces({"application/xml", "application/json"})
@@ -138,20 +138,20 @@ public class LoginFacadeREST extends AbstractFacade<Login> {
     @Path("/create")
     @Consumes({"application/x-www-form-urlencoded", "application/xml", "application/json"})
     public void createUser(@FormParam("firstName") String firstName,
-                           @FormParam("lastName") String lastName,
-                           @FormParam("username") String username,
-                           @FormParam("password") String password,
-                           @FormParam("role") String role) {
-            List<Login> users = em.createNamedQuery("Login.findAll").getResultList();
-            int id = users.get(users.size() - 1).getUserid();
-            id++;
-            Login newUser = new Login(id, username, password, firstName, lastName);
-            int roleID = Integer.parseInt(role);
-            Userroles newRole = new Userroles(roleID);
-            newUser.setRoleid(newRole);
-            super.create(newUser);
+            @FormParam("lastName") String lastName,
+            @FormParam("username") String username,
+            @FormParam("password") String password,
+            @FormParam("role") String role) {
+        List<Login> users = em.createNamedQuery("Login.findAll").getResultList();
+        int id = users.get(users.size() - 1).getUserid();
+        id++;
+        Login newUser = new Login(id, username, password, firstName, lastName);
+        int roleID = Integer.parseInt(role);
+        Userroles newRole = new Userroles(roleID);
+        newUser.setRoleid(newRole);
+        super.create(newUser);
     }
-    
+
     @GET
     @Path("/users")
     @Consumes({"application/x-www-form-urlencoded", "application/xml", "application/json"})
@@ -167,48 +167,64 @@ public class LoginFacadeREST extends AbstractFacade<Login> {
         }
         return answer;
     }
-    
-    public Login createUsers(Login user){
+
+    public Login createUsers(Login user) {
         super.create(user);
         return user;
     }
-    
-    public String updatePassword(Login user, String oldPswd){
-        Login oldUser=super.find(user.getUserid());
+
+    public String newUser(Login user) {
+        String error = "";
+
+        if (checkPassword(user.getPassword())) {
+            createUsers(user);
+        } else {
+            error = "New Password must contain: "
+                    + "capital letters, "
+                    + "lower case letters, "
+                    + "a number, "
+                    + "and be 8 or more characters long";
+        }
+
+        return error;
+    }
+
+    public String updatePassword(Login user, String oldPswd) {
+        Login oldUser = super.find(user.getUserid());
         String newPswd = user.getPassword();
         String error = "";
-        
-        if(oldUser.getPassword().equals(oldPswd)){
-            if(checkPassword(newPswd)){
+
+        if (oldUser.getPassword().equals(oldPswd)) {
+            if (checkPassword(newPswd)) {
                 oldUser.setPassword(newPswd);
             } else {
-                error="New Password must contain: "
+                error = "New Password must contain: "
                         + "capital letters, "
                         + "lower case letters, "
                         + "a number, "
                         + "and be 8 or more characters long";
             }
         } else {
-            error="Old password is incorrect.";
+            error = "Old password is incorrect.";
         }
         return error;
     }
-    
-    public Login updateUsers(Login user){
-        Login oldUser=super.find(user.getUserid());
+
+    public Login updateUsers(Login user) {
+        Login oldUser = super.find(user.getUserid());
         oldUser.setFirstname(user.getFirstname());
         oldUser.setLastname(user.getLastname());
         oldUser.setUsername(user.getUsername());
         oldUser.setRoleid(user.getRoleid());
-        
+
         super.edit(oldUser);
         return user;
     }
-    
-    public void removeUsers(Login user){
+
+    public void removeUsers(Login user) {
         super.remove(user);
     }
-    
+
     /**
      * Check the password to make sure it is 8 characters long and includes a
      * capital letter, lowercase letter, and number
